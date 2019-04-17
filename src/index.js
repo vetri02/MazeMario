@@ -2,10 +2,11 @@ import "./styles.css";
 window.mario = (function() {
   return {
     init: function() {
-      this.gridWidth = 10;
-      this.gridHeight = 10;
-      this.buildTiles(this.gridWidth, this.gridHeight);
-      // this.getGridValue();
+      // FOR TESTING
+      // this.gridWidth = 10;
+      // this.gridHeight = 10;
+      // this.buildTiles(this.gridWidth, this.gridHeight);
+      this.getGridValue();
     },
     getGridValue: function() {
       this.gridWidth = prompt("Please, enter grid width", 0);
@@ -65,7 +66,7 @@ window.mario = (function() {
       this.keycodeEvents(width, height);
     },
     renderTiles: function(board) {
-      // should add preat/hyperapp for render perf
+      // should add https://github.com/Matt-Esch/virtual-dom for render perf
       const markup = this.board
         .map(row =>
           row
@@ -101,44 +102,71 @@ window.mario = (function() {
       this.marioHasMushroooms = 0;
       this.counter = 0;
 
-      document.addEventListener("keydown", function(event) {
-        event.preventDefault();
-        let marioPosition = [...self.marioPosition];
-        if (event.keyCode === 37 || 38 || 39 || 40) {
-          self.counter = self.counter + 1;
-          switch (event.keyCode) {
-            case 37:
-              marioPosition[0] =
-                marioPosition[0] > 0 ? marioPosition[0] - 1 : marioPosition[0];
-              self.reRenderBoard(marioPosition);
-              break;
+      function debounce(cb, interval, immediate) {
+        var timeout;
 
-            case 38:
-              marioPosition[1] =
-                marioPosition[1] > 0 ? marioPosition[1] - 1 : marioPosition[1];
-              self.reRenderBoard(marioPosition);
-              break;
+        return function() {
+          var context = this,
+            args = arguments;
+          var later = function() {
+            timeout = null;
+            if (!immediate) cb.apply(context, args);
+          };
 
-            case 39:
-              marioPosition[0] =
-                marioPosition[0] < boardWidth - 1
-                  ? marioPosition[0] + 1
-                  : marioPosition[0];
-              self.reRenderBoard(marioPosition);
-              break;
+          var callNow = immediate && !timeout;
 
-            case 40:
-              marioPosition[1] =
-                marioPosition[1] < boardHeight - 1
-                  ? marioPosition[1] + 1
-                  : marioPosition[1];
-              self.reRenderBoard(marioPosition);
-              break;
-            default:
-              break;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, interval);
+
+          if (callNow) cb.apply(context, args);
+        };
+      }
+
+      document.addEventListener(
+        "keydown",
+        debounce(function(event) {
+          event.preventDefault();
+          let marioPosition = [...self.marioPosition];
+          if (event.keyCode === 37 || 38 || 39 || 40) {
+            self.counter = self.counter + 1;
+            switch (event.keyCode) {
+              case 37:
+                marioPosition[0] =
+                  marioPosition[0] > 0
+                    ? marioPosition[0] - 1
+                    : marioPosition[0];
+                self.reRenderBoard(marioPosition);
+                break;
+
+              case 38:
+                marioPosition[1] =
+                  marioPosition[1] > 0
+                    ? marioPosition[1] - 1
+                    : marioPosition[1];
+                self.reRenderBoard(marioPosition);
+                break;
+
+              case 39:
+                marioPosition[0] =
+                  marioPosition[0] < boardWidth - 1
+                    ? marioPosition[0] + 1
+                    : marioPosition[0];
+                self.reRenderBoard(marioPosition);
+                break;
+
+              case 40:
+                marioPosition[1] =
+                  marioPosition[1] < boardHeight - 1
+                    ? marioPosition[1] + 1
+                    : marioPosition[1];
+                self.reRenderBoard(marioPosition);
+                break;
+              default:
+                break;
+            }
           }
-        }
-      });
+        }, 50)
+      );
     },
     reRenderBoard: function(marioPositionNew) {
       if (this.board[marioPositionNew[1]][marioPositionNew[0]] === 1) {
