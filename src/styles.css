@@ -3,6 +3,11 @@ body {
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+.app {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .field {
   float: left;
   height: 40px;
@@ -20,13 +25,18 @@ body {
 }
 
 .mushroom {
-  background-size: cover;
-  background-position: center center;
-  background: #0b812c url("/src/mushroom.svg");
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
 }
 
 .mario {
-  background-size: cover;
-  background-position: center center;
-  background: #cd0e0e url("/src/mushroom.svg");
+  text-align: center;
+  line-height: 40px;
+  vertical-align: middle;
+}
+
+.icon-credit {
+  position: absolute;
+  bottom: 0;
 }
