@@ -4,10 +4,10 @@ import { debug } from "util";
 window.mario = (function() {
   return {
     init: function() {
-      this.gridWidth = 10;
-      this.gridHeight = 3;
-      this.buildTiles(this.gridWidth, this.gridHeight);
-      //this.getGridValue();
+      // this.gridWidth = 10;
+      // this.gridHeight = 3;
+      // this.buildTiles(this.gridWidth, this.gridHeight);
+      this.getGridValue();
     },
     getGridValue: function() {
       this.gridWidth = prompt("Please, enter grid width", 0);
@@ -61,7 +61,6 @@ window.mario = (function() {
         }
         result.push(fillArray);
       }
-      //console.table(result);
       return result;
     },
     buildTiles: function(width, height) {
@@ -143,21 +142,15 @@ window.mario = (function() {
       });
     },
     reRenderBoard: function(marioPositionNew) {
-      console.log(this.marioPosition);
-
       if (this.board[marioPositionNew[1]][marioPositionNew[0]] === 1) {
         this.marioStomach.push(
           this.board[marioPositionNew[1]][marioPositionNew[0]]
         );
-        console.log(this.marioStomach.length);
-        console.log(this.gridWidth);
         if (this.marioStomach.length === this.gridHeight) {
           console.log(`Key Count: ${this.counter}`);
         }
       }
-      console.log(this.marioStomach);
       this.board[this.marioPosition[1]][this.marioPosition[0]] = 0;
-      console.table(this.board);
       this.board[marioPositionNew[1]][marioPositionNew[0]] = 2;
       // console.table(this.board);
       this.marioPosition = marioPositionNew;
