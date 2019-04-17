@@ -1,13 +1,11 @@
 import "./styles.css";
-import { debug } from "util";
-
 window.mario = (function() {
   return {
     init: function() {
-      // this.gridWidth = 10;
-      // this.gridHeight = 3;
-      // this.buildTiles(this.gridWidth, this.gridHeight);
-      this.getGridValue();
+      this.gridWidth = 10;
+      this.gridHeight = 10;
+      this.buildTiles(this.gridWidth, this.gridHeight);
+      // this.getGridValue();
     },
     getGridValue: function() {
       this.gridWidth = prompt("Please, enter grid width", 0);
@@ -26,7 +24,6 @@ window.mario = (function() {
         this.gridHeight = prompt("Please, enter a valid grid height", 0);
       }
 
-      // console.log(`${this.gridWidth} ${this.gridHeight}`);
       this.gridWidth = parseInt(this.gridWidth, 10);
       this.gridHeight = parseInt(this.gridHeight, 10);
       this.buildTiles(this.gridWidth, this.gridHeight);
@@ -34,14 +31,12 @@ window.mario = (function() {
     buildMatrix: function(m, n) {
       let result = [];
       const marioLocationY = Math.floor(Math.random() * n);
-      // console.log(`Mario Locatioin gen: ${marioLocationY}`);
       for (var i = 0; i < n; i++) {
         let fillLocation = Math.floor(Math.random() * m);
         let fillArray = new Array(m).fill(0);
         fillArray.fill(1, fillLocation, fillLocation + 1);
 
         if (marioLocationY === i) {
-          // console.log(`Mario Locatioin test: ${marioLocationY}`);
           let marioLocationX = Math.floor(Math.random() * m);
           let newX, newXStop;
 
@@ -56,7 +51,7 @@ window.mario = (function() {
             newXStop = marioLocationX + 2;
           }
           fillArray.fill(2, newX, newXStop);
-          console.log(`Mario Locatioin : ${newX}, ${marioLocationY}`);
+          // console.log(`Mario Locatioin : ${newX}, ${marioLocationY}`);
           this.marioPosition = [newX, marioLocationY];
         }
         result.push(fillArray);
@@ -65,11 +60,12 @@ window.mario = (function() {
     },
     buildTiles: function(width, height) {
       this.board = this.buildMatrix(width, height);
-      console.table(this.board);
+      // console.table(this.board);
       this.renderTiles(this.board);
       this.keycodeEvents(width, height);
     },
     renderTiles: function(board) {
+      // should add preat/hyperapp for render perf
       const markup = this.board
         .map(row =>
           row
@@ -91,16 +87,13 @@ window.mario = (function() {
       let boardWidth = width;
       let boardHeight = height;
 
-      this.marioStomach = [];
+      this.marioHasMushroooms = 0;
       this.counter = 0;
+
       document.addEventListener("keydown", function(event) {
         event.preventDefault();
         let marioPosition = [...self.marioPosition];
         if (event.keyCode === 37 || 38 || 39 || 40) {
-          // console.table(self.board);
-
-          // console.log(`Mario move: ${keyMap[event.keyCode]}`);
-          // console.log(marioPosition);
           self.counter = self.counter + 1;
           switch (event.keyCode) {
             case 37:
@@ -143,19 +136,22 @@ window.mario = (function() {
     },
     reRenderBoard: function(marioPositionNew) {
       if (this.board[marioPositionNew[1]][marioPositionNew[0]] === 1) {
-        this.marioStomach.push(
-          this.board[marioPositionNew[1]][marioPositionNew[0]]
-        );
-        if (this.marioStomach.length === this.gridHeight) {
-          console.log(`Key Count: ${this.counter}`);
-        }
+        this.marioHasMushroooms = this.marioHasMushroooms + 1;
       }
+
       this.board[this.marioPosition[1]][this.marioPosition[0]] = 0;
       this.board[marioPositionNew[1]][marioPositionNew[0]] = 2;
       // console.table(this.board);
       this.marioPosition = marioPositionNew;
 
       this.renderTiles(this.board);
+
+      setTimeout(() => {
+        if (this.marioHasMushroooms === this.gridHeight) {
+          alert(`Game Over: Total number of moves ${this.counter}`);
+          window.location.reload();
+        }
+      }, 1);
     }
   };
 })();
