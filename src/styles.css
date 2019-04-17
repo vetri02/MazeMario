@@ -1,0 +1,32 @@
+body {
+  font-family: system-ui, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+.field {
+  float: left;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #000;
+}
+
+.clear {
+  clear: both;
+  float: left;
+}
+
+.grass {
+  background: #ffffff;
+}
+
+.wall {
+  background-size: cover;
+  background-position: center center;
+  background: #0b812c url("/src/mushroom.svg");
+}
+
+.mario {
+  background-size: cover;
+  background-position: center center;
+  background: #cd0e0e url("/src/mushroom.svg");
+}

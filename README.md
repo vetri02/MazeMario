@@ -1,2 +1,0 @@
-# MazeMario
-Created with CodeSandbox
