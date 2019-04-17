@@ -19,7 +19,7 @@ body {
   background: #ffffff;
 }
 
-.wall {
+.mushroom {
   background-size: cover;
   background-position: center center;
   background: #0b812c url("/src/mushroom.svg");
